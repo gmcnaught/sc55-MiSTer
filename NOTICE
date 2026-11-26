@@ -20,5 +20,8 @@ tools/romset.py reads the ROM table in
 third_party/nuked-sc55/doc/supported_romsets.rst, copied from Nuked-SC55
 (GPL-2.0-or-later, third_party/nuked-sc55/LICENSE).
 
+mra/*.mra are written by tools/romset.py mra; they name MAME's ROM sets and the CRC32s
+of their files, not ROM contents.
+
 No Roland ROMs are included. Users make the ROM pack from their own files
 (tools/romset.py).
