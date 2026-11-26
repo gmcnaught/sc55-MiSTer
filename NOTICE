@@ -1,0 +1,24 @@
+Roland SC-55 core for MiSTer
+Copyright (c) 2026 The synthcores contributors
+
+Roland, Sound Canvas, SC-55 and SC-155 are trademarks of Roland Corporation.
+This project is independent and is not affiliated with, endorsed by or
+supported by Roland.
+
+The core (releases/*.rbf) is distributed under the GNU General Public
+License version 2 or (at your option) any later version (LICENSE). Its
+complete source is in https://github.com/gmcnaught/synthcores under
+cores/sc55/ and modules/roland/; each release names the commit it was
+built from. Releases up to SC55_20261120.rbf were built from this
+repository's own history, which still holds that source. The H8/532 MCU,
+the M37450 sub-MCU, the gate array and the PCM chip are written after
+Nuked-SC55 (nukeykt; jcmoyer's fork, GPL-2.0-or-later). The RBF includes
+the MiSTer framework (Template_MiSTer, GPL-2.0) and the shared synthframe
+modules (MIT).
+
+tools/romset.py reads the ROM table in
+third_party/nuked-sc55/doc/supported_romsets.rst, copied from Nuked-SC55
+(GPL-2.0-or-later, third_party/nuked-sc55/LICENSE).
+
+No Roland ROMs are included. Users make the ROM pack from their own files
+(tools/romset.py).
