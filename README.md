@@ -142,10 +142,10 @@ The core plays the MIDI that arrives on the MiSTer's UART through MidiLink.
 4. Send MIDI. The SC-55 is multitimbral: part 1 plays channel 1, …, part 10 (drums) plays
    channel 10. The bar graph on the screen shows which parts are playing.
 5. MIDI out goes back through the same UART at the same speed:
-    - every model sends Active Sensing (FE). Known issue: on the MiSTer the mk1 stops sending it
-      after it receives a GS data request (RQ1); simulation does not show this ([#52](https://github.com/gmcnaught/synthcores/issues/52));
-    - the mk2 and the SC-155mk2 answer GS data requests (RQ1) with DT1;
-    - the mk1's firmware answers no RQ1, in the reference as well.
+    - every model sends Active Sensing (FE);
+    - the mk1, the mk2 and the SC-155mk2 answer GS data requests (RQ1) with DT1; the SC-155's
+      firmware does not answer them. Before [#52](https://github.com/gmcnaught/synthcores/issues/52)
+      was fixed, the mk1 sent nothing at all after an RQ1.
 
 Panel keys (PS/2 or USB keyboard): Q power, W all, E mute, R/T part, Y/U instrument, I/O key
 shift, P/[ level, A/S MIDI channel, D/F pan, G/H reverb, J/K chorus, arrows part.
@@ -162,8 +162,8 @@ shift, P/[ level, A/S MIDI channel, D/F pan, G/H reverb, J/K chorus, arrows part
 | MiSTer board (ROM pack, DDR3 wave ROMs, pacing, MIDI, audio) | identical in simulation from power-on | [`docs/board.md`](https://github.com/gmcnaught/synthcores/blob/main/cores/sc55/docs/board.md) |
 | LCD and panel keys | LCD identical pixel for pixel to the reference's renderer | [`docs/lcd.md`](https://github.com/gmcnaught/synthcores/blob/main/cores/sc55/docs/lcd.md) |
 | MiSTer hardware | mk1 and mk2: play MIDI in real time (100 s of avmidi 0A.mid, no underrun or lag) | [`docs/board.md`](https://github.com/gmcnaught/synthcores/blob/main/cores/sc55/docs/board.md), [`docs/mk2.md`](https://github.com/gmcnaught/synthcores/blob/main/cores/sc55/docs/mk2.md) |
-| MIDI out | the bytes the model sends identical in byte and cycle (`mcu_lockstep`: mk1 Active Sensing, mk2 GS RQ1 → DT1) and on `uart_txd` (`board_lockstep`); MiSTer: the mk2's DT1 on `/dev/ttyS1` = the model's; the mk1's Active Sensing stops after an RQ1 ([#52](https://github.com/gmcnaught/synthcores/issues/52)) | [`MIDI-OUT-PLAN.md`](https://github.com/gmcnaught/synthcores/blob/main/MIDI-OUT-PLAN.md) |
-| Release build (v20261126c) | Quartus Lite 17.0 on the Windows build host (`scripts/build-hosts/winbuild.sh`, seed 3): 31,747 ALMs (76 %), 503 RAM blocks (91 %), timing met (worst setup slack +0.026 ns HDMI clock, +0.390 ns core clock). MiSTer on this RBF: `smoke.sh` with the mk2 and SC-155 packs, 100 s / 60 s of avmidi 0A.mid with no underrun or lag, the mk2's DT1 = the reference's; with the mk1 pack the same, except no MIDI out after the GS RQ1 ([synthcores#52](https://github.com/gmcnaught/synthcores/issues/52), open) | [release notes](https://github.com/gmcnaught/sc55-MiSTer/releases/tag/v20261126c) |
+| MIDI out | the bytes the model sends identical in byte and cycle (`mcu_lockstep`: mk1 Active Sensing, mk2 GS RQ1 → DT1) and on `uart_txd` (`board_lockstep`); `board_lockstep --rx-baud 9600`: MIDI in through the board's serial receiver, the mk1's RQ1 → DT1 then Active Sensing ([#52](https://github.com/gmcnaught/synthcores/issues/52)); MiSTer: the mk1's and mk2's DT1 on `/dev/ttyS1` = the model's | [`MIDI-OUT-PLAN.md`](https://github.com/gmcnaught/synthcores/blob/main/MIDI-OUT-PLAN.md) |
+| Release build (v20261127) | Quartus Lite 17.0 on the Windows build host (`scripts/build-hosts/winbuild.sh`, seed 3): 31,786 ALMs (76 %), 503 RAM blocks (91 %), timing met (worst setup slack +0.057 ns HDMI clock, +0.624 ns core clock). MiSTer on this RBF: `smoke.sh` with the mk1, SC-155 and mk2 packs, 60 s / 60 s / 100 s of avmidi 0A.mid with no underrun or lag; the mk1's and mk2's DT1 = the reference's, the SC-155 sends Active Sensing; SC-55.mra and SC-55mk2.mra boot | [release notes](https://github.com/gmcnaught/sc55-MiSTer/releases/tag/v20261127) |
 
 ## Licence
 
